@@ -1,0 +1,12 @@
+{
+    "repos": [
+        {
+            "id": "Example",
+            "url": "./LmaoGet/example-repo.json"
+        },
+        {
+            "id": "Offline",
+            "url": "./404/404.json"
+        }
+    ]
+}

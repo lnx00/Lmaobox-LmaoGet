@@ -1,0 +1,19 @@
+{
+    "name": "Example Repository",
+    "packages": [
+        {
+            "id": "TestPackage",
+            "name": "Test Package",
+            "description": "This is a test package.",
+            "version": "1.0.0",
+            "url": "https://raw.githubusercontent.com/lnx00/Lmaobox-Lua/refs/heads/main/src/DT-Bar.lua"
+        },
+        {
+            "id": "MyScript",
+            "name": "My Scripts",
+            "description": "This is my script.",
+            "version": "2.0.4",
+            "url": "https://raw.githubusercontent.com/lnx00/Lmaobox-Lua/refs/heads/main/src/DT-Bar.lua"
+        }
+    ]
+}
