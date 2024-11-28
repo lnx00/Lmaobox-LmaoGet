@@ -1,5 +1,5 @@
-local Common = require("src.common")
-local Api = require("src.api")
+local Common = require("src.common.common")
+local Api = require("src.core.api")
 
 ---@class LmaoGetCLI
 local LmaoGetCLI = {}

@@ -1,6 +1,6 @@
 local lmaoget = {}
 
-local cli = require("src.cli")
-local api = require("src.api")
+local cli = require("src.core.cli")
+local api = require("src.core.api")
 
 api.update()

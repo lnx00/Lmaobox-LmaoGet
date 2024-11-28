@@ -1,5 +1,5 @@
-local Common = require("src.common")
-local Packages = require("src.packages")
+local Common = require("src.common.common")
+local Packages = require("src.core.packages")
 
 local fs = Common.lmaolib.utils.fs
 

@@ -1,4 +1,4 @@
-local Common = require("src.common")
+local Common = require("src.common.common")
 local fs, dkjson = Common.lmaolib.utils.fs, Common.dkjson
 
 local repo_index_url = "./LmaoGet/lmaoget-index.json"
