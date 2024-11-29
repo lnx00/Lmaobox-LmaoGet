@@ -25,3 +25,12 @@ local RepositoryPackage = {}
 ---@field name string
 ---@field packages RepositoryPackage[]
 local Repository = {}
+
+---Information about a installed package
+---@class InstalledPackage
+---@field id string
+---@field name string
+---@field description string
+---@field version string
+---@field file_name string
+local InstalledPackage = {}

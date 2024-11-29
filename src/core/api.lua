@@ -1,5 +1,6 @@
 local Common = require("src.common.common")
 local Packages = require("src.core.packages")
+local installer = require("src.core.installer")
 
 local fs = Common.lmaolib.utils.fs
 
@@ -36,6 +37,10 @@ end
 ---@param package_id string
 ---@return boolean, string?
 function LmaoGetApi.install(repo_id, package_id)
+    if installer.is_installed(repo_id, package_id) then
+        return false, "Package is already installed! Use 'upgrade' to update it."
+    end
+
     local package = Packages.get(repo_id, package_id)
     if not package then
         return false, string.format("Package '%s' not found in repository '%s'", package_id, repo_id)

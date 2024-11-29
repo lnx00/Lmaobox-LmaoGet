@@ -62,12 +62,12 @@ end
 
 -- Find a package with partial matching name
 ---@return table<string, RepositoryPackage>
-function Packages.find(package_name)
+function Packages.find(needle)
     local results = {}
     for repo_id, repo_cache in pairs(Packages.cache) do
         for package_id, package in pairs(repo_cache) do
             local full_id = Common.get_full_id(repo_id, package_id)
-            if full_id:lower():find(package_name:lower()) then
+            if full_id:lower():find(needle:lower()) then
                 results[full_id] = package
             end
         end
