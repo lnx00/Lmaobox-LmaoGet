@@ -3,17 +3,20 @@ local fs, dkjson = Common.lmaolib.utils.fs, Common.dkjson
 
 local repo_index_url = "./LmaoGet/lmaoget-index.json"
 
+---@param repo_entry RepositoryIndexEntry
+---@return table<string, RepositoryPackage>?
 local function fetch_repo(repo_entry)
     local repo_data = fs.read(repo_entry.url)
     if not repo_data then
         warn(string.format("Failed to load repo %s", repo_entry.id))
-        return
+        return nil
     end
 
+    ---@type Repository?
     local repo_json = dkjson.decode(repo_data)
     if not repo_json then
         warn(string.format("Failed to decode repo %s", repo_entry.id))
-        return
+        return nil
     end
 
     local repo_cache = {}
@@ -29,9 +32,9 @@ end
 
 -- Manages available and installed packages
 ---@class Packages
+---@field cache table<string, table<string, RepositoryPackage>>
 local Packages = {
-    cache = {},
-    installed = {}
+    cache = {}
 }
 
 function Packages.update_cache()
@@ -41,6 +44,7 @@ function Packages.update_cache()
         return
     end
 
+    ---@type RepositoryIndex?
     local package_index = dkjson.decode(package_index_json)
     if not package_index then
         error("Failed to decode package index")
@@ -57,7 +61,7 @@ function Packages.update_cache()
 end
 
 -- Find a package with partial matching name
----@return table<string, table>
+---@return table<string, RepositoryPackage>
 function Packages.find(package_name)
     local results = {}
     for repo_id, repo_cache in pairs(Packages.cache) do
@@ -73,7 +77,7 @@ function Packages.find(package_name)
 end
 
 -- Get a package by repo and package id
----@return table?
+---@return RepositoryPackage?
 function Packages.get(repo_id, package_id)
     local repo_cache = Packages.cache[repo_id]
     if not repo_cache then
