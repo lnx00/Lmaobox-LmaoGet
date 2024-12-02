@@ -85,4 +85,31 @@ function installer.install_package(repo_id, package_info)
     return true
 end
 
+---@param repo_id string
+---@param package_id string
+---@return boolean, string?
+function installer.uninstall_package(repo_id, package_id)
+    local installed_package = installer.find(repo_id, package_id)
+    if not installed_package then
+        return false, "Package is not installed."
+    end
+
+    -- Delete package file
+    local file_path = string.format("%s/%s", PACKAGE_PATH, installed_package.file_name)
+    if not fs.delete(file_path) then
+        return false, "Failed to remove package file."
+    end
+
+    -- Remove from installed packages
+    local full_id = Common.get_full_id(repo_id, package_id)
+    for i, package in ipairs(installer.installed) do
+        if package.id == full_id then
+            table.remove(installer.installed, i)
+            break
+        end
+    end
+
+    return true
+end
+
 return installer

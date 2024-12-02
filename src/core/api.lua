@@ -46,4 +46,16 @@ function LmaoGetApi.install(repo_id, package_id)
     return installer.install_package(repo_id, package_info)
 end
 
+-- Uninstalls a package by repo and package id
+---@param repo_id string
+---@param package_id string
+---@return boolean, string?
+function LmaoGetApi.uninstall(repo_id, package_id)
+    if not installer.is_installed(repo_id, package_id) then
+        return false, "Package is not installed!"
+    end
+
+    return installer.uninstall_package(repo_id, package_id)
+end
+
 return LmaoGetApi
