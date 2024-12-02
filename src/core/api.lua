@@ -1,8 +1,6 @@
-local Common = require("src.common.common")
-local Packages = require("src.core.packages")
+local common = require("src.common.common")
+local packages = require("src.core.packages")
 local installer = require("src.core.installer")
-
-local fs = Common.lmaolib.utils.fs
 
 local WORKSPACE_PATH = "./LmaoGet"
 filesystem.CreateDirectory(WORKSPACE_PATH)
@@ -12,17 +10,17 @@ local LmaoGetApi = {}
 
 -- Updates the package cache
 function LmaoGetApi.update()
-    Packages.update_cache()
+    packages.update_cache()
 end
 
 -- Returns package ids that match the given name
 ---@param package_name string
 ---@return string[]
 function LmaoGetApi.find(package_name)
-    local packages = Packages.find(package_name)
+    local package_list = packages.find(package_name)
     local results = {}
 
-    for full_id, _ in pairs(packages) do
+    for full_id, _ in pairs(package_list) do
         table.insert(results, full_id)
     end
 
@@ -38,7 +36,7 @@ function LmaoGetApi.install(repo_id, package_id)
         return false, "Package is already installed! Use 'upgrade' to update it."
     end
 
-    local package_info = Packages.get(repo_id, package_id)
+    local package_info = packages.get(repo_id, package_id)
     if not package_info then
         return false, string.format("Package '%s' not found in repository '%s'", package_id, repo_id)
     end

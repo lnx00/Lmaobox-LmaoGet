@@ -1,5 +1,5 @@
-local Common = require("src.common.common")
-local fs = Common.lmaolib.utils.fs
+local common = require("src.common.common")
+local fs = common.lmaolib.utils.fs
 
 local PACKAGE_INFO_PATH = "./LmaoGet/installed-packages.json"
 local PACKAGE_PATH = "./LmaoGet/packages"
@@ -20,7 +20,7 @@ function installer.load_info()
     end
 
     ---@type InstalledPackage[]?
-    local installed = Common.dkjson.decode(installed_data)
+    local installed = common.dkjson.decode(installed_data)
     if not installed then
         return
     end
@@ -30,7 +30,7 @@ end
 
 -- Saves the installed package info
 function installer.save_info()
-    local installed_data = Common.dkjson.encode(installer.installed)
+    local installed_data = common.dkjson.encode(installer.installed)
     if not installed_data then
         warn("Failed to encode installed package info.")
         return
@@ -41,7 +41,7 @@ end
 
 ---@return InstalledPackage?
 function installer.find(repo_id, package_id)
-    local full_id = Common.get_full_id(repo_id, package_id)
+    local full_id = common.get_full_id(repo_id, package_id)
     for _, installed_package in ipairs(installer.installed) do
         if installed_package.id == full_id then
             return installed_package
@@ -73,7 +73,7 @@ function installer.install_package(repo_id, package_info)
     end
 
     -- Add to installed packages
-    local full_id = Common.get_full_id(repo_id, package_info.id)
+    local full_id = common.get_full_id(repo_id, package_info.id)
     table.insert(installer.installed, {
         id = full_id,
         name = package_info.name,
@@ -101,7 +101,7 @@ function installer.uninstall_package(repo_id, package_id)
     end
 
     -- Remove from installed packages
-    local full_id = Common.get_full_id(repo_id, package_id)
+    local full_id = common.get_full_id(repo_id, package_id)
     for i, package in ipairs(installer.installed) do
         if package.id == full_id then
             table.remove(installer.installed, i)

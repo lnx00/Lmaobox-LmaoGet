@@ -1,11 +1,11 @@
-local Common = require("src.common.common")
+local common = require("src.common.common")
 local Api = require("src.core.api")
 
 ---@class LmaoGetCLI
 local LmaoGetCLI = {}
 
 function LmaoGetCLI.show_help()
-    print(string.format("Lmaobox Package Manager v%s\n", Common.version()))
+    print(string.format("Lmaobox Package Manager v%s\n", common.version()))
     print("Usage: lmaoget <command> [options]\n")
     print("Available commands:")
     print("  list \t\t\t List installed packages")
@@ -37,7 +37,7 @@ function LmaoGetCLI.find(package_name)
 end
 
 function LmaoGetCLI.install(package_name)
-    local repo_id, package_id = Common.get_split_id(package_name)
+    local repo_id, package_id = common.get_split_id(package_name)
 
     print(string.format("Installing package '%s'...", package_name))
     local success, err = Api.install(repo_id, package_id)
@@ -51,7 +51,7 @@ function LmaoGetCLI.install(package_name)
 end
 
 function LmaoGetCLI.uninstall(package_name)
-    local repo_id, package_id = Common.get_split_id(package_name)
+    local repo_id, package_id = common.get_split_id(package_name)
 
     print(string.format("Uninstalling package '%s'...", package_name))
     local success, err = Api.uninstall(repo_id, package_id)

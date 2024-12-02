@@ -7,20 +7,20 @@ assert(dkjson, "Failed to load dkjson")
 ---@class Common
 ---@field lmaolib LmaoLib
 ---@field dkjson dkjson
-local Common = {
+local common = {
     lmaolib = lmaolib,
     dkjson = dkjson
 }
 
-function Common.version()
+function common.version()
     return "0.1.0"
 end
 
-function Common.sanitize_name(name)
+function common.sanitize_name(name)
     return name:gsub("[^%w]", "")
 end
 
-function Common.compare_versions(v1, v2)
+function common.compare_versions(v1, v2)
     local v1_parts = {}
     for part in v1:gmatch("%d+") do
         table.insert(v1_parts, tonumber(part))
@@ -45,16 +45,16 @@ function Common.compare_versions(v1, v2)
     return 0
 end
 
-function Common.get_full_id(repo_id, package_id)
-    repo_id = Common.sanitize_name(repo_id)
-    package_id = Common.sanitize_name(package_id)
+function common.get_full_id(repo_id, package_id)
+    repo_id = common.sanitize_name(repo_id)
+    package_id = common.sanitize_name(package_id)
 
     return string.format("%s.%s", repo_id, package_id)
 end
 
-function Common.get_split_id(full_id)
+function common.get_split_id(full_id)
     local repo_id, package_id = full_id:match("([^%.]+)%.(.+)")
     return repo_id, package_id
 end
 
-return Common
+return common
