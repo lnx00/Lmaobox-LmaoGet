@@ -64,6 +64,20 @@ function LmaoGetCLI.uninstall(package_name)
     print(string.format("Successfully uninstalled package '%s'", package_name))
 end
 
+function LmaoGetCLI.upgrade(package_name)
+    local repo_id, package_id = common.get_split_id(package_name)
+
+    print(string.format("Upgrading package '%s'...", package_name))
+    local success, err = Api.upgrade(repo_id, package_id)
+
+    if not success then
+        print(string.format("Failed to upgrade package '%s': %s", package_name, err))
+        return
+    end
+
+    print(string.format("Successfully upgraded package '%s'", package_name))
+end
+
 function LmaoGetCLI.on_command(args)
     local n_args = #args
 
@@ -99,7 +113,7 @@ function LmaoGetCLI.on_command(args)
         LmaoGetCLI.uninstall(package_name)
         return
     elseif action == "upgrade" then
-        print("Upgrading packages is not supported yet")
+        LmaoGetCLI.upgrade(package_name)
         return
     else
         print(string.format("Unknown command '%s'", action))

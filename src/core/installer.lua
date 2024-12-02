@@ -55,10 +55,33 @@ function installer.is_installed(repo_id, package_id)
     return installer.find(repo_id, package_id) ~= nil
 end
 
+-- Adds a new package to the installed list
+---@param installed_package InstalledPackage
+function installer.add_package(installed_package)
+    table.insert(installer.installed, installed_package)
+    installer.save_info()
+end
+
+-- Removes a package from the installed list
+---@param full_id string
+function installer.remove_package(full_id)
+    for i, installed_package in ipairs(installer.installed) do
+        if installed_package.id == full_id then
+            table.remove(installer.installed, i)
+            installer.save_info()
+            return
+        end
+    end
+end
+
 ---@param repo_id string
 ---@param package_info RepositoryPackage
 ---@return boolean, string?
 function installer.install_package(repo_id, package_info)
+    if installer.is_installed(repo_id, package_info.id) then
+        return false, "Package is already installed!"
+    end
+
     -- Download package data
     local package_data = http.Get(package_info.url)
     if not package_data then
@@ -74,7 +97,7 @@ function installer.install_package(repo_id, package_info)
 
     -- Add to installed packages
     local full_id = common.get_full_id(repo_id, package_info.id)
-    table.insert(installer.installed, {
+    installer.add_package({
         id = full_id,
         name = package_info.name,
         description = package_info.description,
@@ -101,13 +124,7 @@ function installer.uninstall_package(repo_id, package_id)
     end
 
     -- Remove from installed packages
-    local full_id = common.get_full_id(repo_id, package_id)
-    for i, package in ipairs(installer.installed) do
-        if package.id == full_id then
-            table.remove(installer.installed, i)
-            break
-        end
-    end
+    installer.remove_package(installed_package.id)
 
     return true
 end
