@@ -5,10 +5,7 @@ local installer = require("src.core.installer")
 local fs = Common.lmaolib.utils.fs
 
 local WORKSPACE_PATH = "./LmaoGet"
-local PACKAGE_PATH = string.format("%s/packages", WORKSPACE_PATH)
-
 filesystem.CreateDirectory(WORKSPACE_PATH)
-filesystem.CreateDirectory(PACKAGE_PATH)
 
 ---@class LmaoGetApi
 local LmaoGetApi = {}
@@ -41,22 +38,12 @@ function LmaoGetApi.install(repo_id, package_id)
         return false, "Package is already installed! Use 'upgrade' to update it."
     end
 
-    local package = Packages.get(repo_id, package_id)
-    if not package then
+    local package_info = Packages.get(repo_id, package_id)
+    if not package_info then
         return false, string.format("Package '%s' not found in repository '%s'", package_id, repo_id)
     end
 
-    local package_data = http.Get(package.url)
-    if not package_data then
-        return false, string.format("Failed to download package '%s'", package_id)
-    end
-
-    local file_name = string.format("%s_%s.lua", repo_id, package_id)
-    --local file_path = string.format("%s/%s", os.getenv("localappdata"), file_name)
-    local file_path = string.format("%s/%s", PACKAGE_PATH, file_name)
-    fs.write(file_path, package_data)
-
-    return true
+    return installer.install_package(repo_id, package_info)
 end
 
 return LmaoGetApi
