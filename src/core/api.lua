@@ -6,10 +6,10 @@ local WORKSPACE_PATH = "./LmaoGet"
 filesystem.CreateDirectory(WORKSPACE_PATH)
 
 ---@class LmaoGetApi
-local LmaoGetApi = {}
+local api = {}
 
 -- Updates the package cache
-function LmaoGetApi.update()
+function api.update()
     packages.update_cache()
     installer.load_info()
 end
@@ -17,7 +17,7 @@ end
 -- Returns package ids that match the given name
 ---@param package_name string
 ---@return string[]
-function LmaoGetApi.find(package_name)
+function api.find(package_name)
     local package_list = packages.find(package_name)
     local results = {}
 
@@ -32,7 +32,7 @@ end
 ---@param repo_id string
 ---@param package_id string
 ---@return boolean, string?
-function LmaoGetApi.install(repo_id, package_id)
+function api.install(repo_id, package_id)
     local package_info = packages.get(repo_id, package_id)
     if not package_info then
         return false, string.format("Package '%s' not found in repository '%s'", package_id, repo_id)
@@ -45,7 +45,7 @@ end
 ---@param repo_id string
 ---@param package_id string
 ---@return boolean, string?
-function LmaoGetApi.uninstall(repo_id, package_id)
+function api.uninstall(repo_id, package_id)
     if not installer.is_installed(repo_id, package_id) then
         return false, "Package is not installed!"
     end
@@ -57,7 +57,7 @@ end
 ---@param repo_id string
 ---@param package_id string
 ---@return boolean, string?
-function LmaoGetApi.upgrade(repo_id, package_id)
+function api.upgrade(repo_id, package_id)
     local installed_package = installer.find(repo_id, package_id)
     if not installed_package then
         return false, "Package is not installed!"
@@ -82,4 +82,4 @@ function LmaoGetApi.upgrade(repo_id, package_id)
     return installer.install_package(repo_id, package_info)
 end
 
-return LmaoGetApi
+return api

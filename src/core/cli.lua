@@ -2,9 +2,9 @@ local common = require("src.common.common")
 local Api = require("src.core.api")
 
 ---@class LmaoGetCLI
-local LmaoGetCLI = {}
+local cli = {}
 
-function LmaoGetCLI.show_help()
+function cli.show_help()
     print(string.format("Lmaobox Package Manager v%s\n", common.version()))
     print("Usage: lmaoget <command> [options]\n")
     print("Available commands:")
@@ -16,13 +16,13 @@ function LmaoGetCLI.show_help()
     print("  upgrade <package> \t\t Upgrade an installed package")
 end
 
-function LmaoGetCLI.update()
+function cli.update()
     print("Updating package cache...")
     Api.update()
     print("Package cache updated")
 end
 
-function LmaoGetCLI.find(package_name)
+function cli.find(package_name)
     local results = Api.find(package_name)
 
     if #results == 0 then
@@ -36,7 +36,7 @@ function LmaoGetCLI.find(package_name)
     end
 end
 
-function LmaoGetCLI.install(package_name)
+function cli.install(package_name)
     local repo_id, package_id = common.get_split_id(package_name)
 
     print(string.format("Installing package '%s'...", package_name))
@@ -50,7 +50,7 @@ function LmaoGetCLI.install(package_name)
     print(string.format("Successfully installed package '%s'", package_name))
 end
 
-function LmaoGetCLI.uninstall(package_name)
+function cli.uninstall(package_name)
     local repo_id, package_id = common.get_split_id(package_name)
 
     print(string.format("Uninstalling package '%s'...", package_name))
@@ -64,7 +64,7 @@ function LmaoGetCLI.uninstall(package_name)
     print(string.format("Successfully uninstalled package '%s'", package_name))
 end
 
-function LmaoGetCLI.upgrade(package_name)
+function cli.upgrade(package_name)
     local repo_id, package_id = common.get_split_id(package_name)
 
     print(string.format("Upgrading package '%s'...", package_name))
@@ -78,18 +78,18 @@ function LmaoGetCLI.upgrade(package_name)
     print(string.format("Successfully upgraded package '%s'", package_name))
 end
 
-function LmaoGetCLI.on_command(args)
+function cli.on_command(args)
     local n_args = #args
 
     if n_args < 2 then
-        LmaoGetCLI.show_help()
+        cli.show_help()
         return
     end
 
     local action = args[2]
 
     if action == "update" then
-        LmaoGetCLI.update()
+        cli.update()
         return
     elseif action == "list" then
         print("WIP")
@@ -104,16 +104,16 @@ function LmaoGetCLI.on_command(args)
     local package_name = args[3]
 
     if action == "find" then
-        LmaoGetCLI.find(package_name)
+        cli.find(package_name)
         return
     elseif action == "install" then
-        LmaoGetCLI.install(package_name)
+        cli.install(package_name)
         return
     elseif action == "uninstall" then
-        LmaoGetCLI.uninstall(package_name)
+        cli.uninstall(package_name)
         return
     elseif action == "upgrade" then
-        LmaoGetCLI.upgrade(package_name)
+        cli.upgrade(package_name)
         return
     else
         print(string.format("Unknown command '%s'", action))
@@ -134,10 +134,10 @@ local function on_string_cmd(string_cmd)
         table.insert(args, arg)
     end
 
-    LmaoGetCLI.on_command(args)
+    cli.on_command(args)
     string_cmd:Set("")
 end
 
 callbacks.Register("SendStringCmd", on_string_cmd)
 
-return LmaoGetCLI
+return cli
