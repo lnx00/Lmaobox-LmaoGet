@@ -1,5 +1,7 @@
 local common = require("src.common.common")
-local fs, dkjson = common.lmaolib.utils.fs, common.dkjson
+local json = require("src.common.json")
+
+local fs = common.lmaolib.utils.fs
 
 local repo_index_url = "./LmaoGet/lmaoget-index.json"
 
@@ -13,7 +15,7 @@ local function fetch_repo(repo_entry)
     end
 
     ---@type Repository?
-    local repo_json = dkjson.decode(repo_data)
+    local repo_json = json.decode(repo_data)
     if not repo_json then
         warn(string.format("Failed to decode repo %s", repo_entry.id))
         return nil
@@ -45,7 +47,7 @@ function packages.update_cache()
     end
 
     ---@type RepositoryIndex?
-    local package_index = dkjson.decode(package_index_json)
+    local package_index = json.decode(package_index_json)
     if not package_index then
         error("Failed to decode package index")
         return

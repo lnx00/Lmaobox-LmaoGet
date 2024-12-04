@@ -1,4 +1,6 @@
 local common = require("src.common.common")
+local json = require("src.common.json")
+
 local fs = common.lmaolib.utils.fs
 
 local PACKAGE_INFO_PATH = "./LmaoGet/installed-packages.json"
@@ -20,7 +22,7 @@ function installer.load_info()
     end
 
     ---@type InstalledPackage[]?
-    local installed = common.dkjson.decode(installed_data)
+    local installed = json.decode(installed_data)
     if not installed then
         return
     end
@@ -30,7 +32,7 @@ end
 
 -- Saves the installed package info
 function installer.save_info()
-    local installed_data = common.dkjson.encode(installer.installed)
+    local installed_data = json.encode(installer.installed)
     if not installed_data then
         warn("Failed to encode installed package info.")
         return

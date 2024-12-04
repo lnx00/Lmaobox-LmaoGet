@@ -1,15 +1,11 @@
 local lmaolib = require("LmaoLib")
-local dkjson = load(http.Get("http://dkolf.de/dkjson-lua/dkjson-2.8.lua"))()
 
 assert(lmaolib, "Failed to load LmaoLib")
-assert(dkjson, "Failed to load dkjson")
 
 ---@class Common
 ---@field lmaolib LmaoLib
----@field dkjson dkjson
 local common = {
-    lmaolib = lmaolib,
-    dkjson = dkjson
+    lmaolib = lmaolib
 }
 
 function common.version()
