@@ -1,5 +1,5 @@
 local common = require("src.common.common")
-local packages = require("src.core.packages")
+local packages = require("src.core.package_manager")
 local installer = require("src.core.installer")
 
 local WORKSPACE_PATH = "./LmaoGet"
@@ -35,35 +35,33 @@ end
 function api.install(repo_id, package_id)
     local package_info = packages.get(repo_id, package_id)
     if not package_info then
-        return false, string.format("Package '%s' not found in repository '%s'", package_id, repo_id)
+        return false, "Package not found!"
     end
 
-    return installer.install_package(repo_id, package_info)
+    return installer.install_package(package_info)
 end
 
 -- Uninstalls a package by repo and package id
----@param repo_id string
----@param package_id string
+---@param full_id string
 ---@return boolean, string?
-function api.uninstall(repo_id, package_id)
-    if not installer.is_installed(repo_id, package_id) then
+function api.uninstall(full_id)
+    if not installer.is_installed(full_id) then
         return false, "Package is not installed!"
     end
 
-    return installer.uninstall_package(repo_id, package_id)
+    return installer.uninstall_package(full_id)
 end
 
 -- Upgrades a package by repo and package id
----@param repo_id string
----@param package_id string
+---@param full_id string
 ---@return boolean, string?
-function api.upgrade(repo_id, package_id)
-    local installed_package = installer.find(repo_id, package_id)
+function api.upgrade(full_id)
+    local installed_package = installer.find(full_id)
     if not installed_package then
         return false, "Package is not installed!"
     end
 
-    local package_info = packages.get(repo_id, package_id)
+    local package_info = packages.get(full_id)
     if not package_info then
         return false, "Package does not exist anymore!"
     end
@@ -74,12 +72,12 @@ function api.upgrade(repo_id, package_id)
     end
 
     -- Uninstall old package
-    local success, err = installer.uninstall_package(repo_id, package_id)
+    local success, err = installer.uninstall_package(full_id)
     if not success then
         return false, err
     end
 
-    return installer.install_package(repo_id, package_info)
+    return installer.install_package(package_info)
 end
 
 return api

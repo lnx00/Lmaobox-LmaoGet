@@ -51,10 +51,10 @@ function cli.install(package_name)
 end
 
 function cli.uninstall(package_name)
-    local repo_id, package_id = common.get_split_id(package_name)
+    --local repo_id, package_id = common.get_split_id(package_name)
 
     print(string.format("Uninstalling package '%s'...", package_name))
-    local success, err = Api.uninstall(repo_id, package_id)
+    local success, err = Api.uninstall(package_name)
 
     if not success then
         print(string.format("Failed to uninstall package '%s': %s", package_name, err))
@@ -65,10 +65,10 @@ function cli.uninstall(package_name)
 end
 
 function cli.upgrade(package_name)
-    local repo_id, package_id = common.get_split_id(package_name)
+    --local repo_id, package_id = common.get_split_id(package_name)
 
     print(string.format("Upgrading package '%s'...", package_name))
-    local success, err = Api.upgrade(repo_id, package_id)
+    local success, err = Api.upgrade(package_name)
 
     if not success then
         print(string.format("Failed to upgrade package '%s': %s", package_name, err))

@@ -1,12 +1,14 @@
 ---@meta
 
+--[[ Remote ]]
+
 ---A repository entry in the repository index
 ---@class RepositoryIndexEntry
 ---@field id string
 ---@field url string
 local RepositoryIndexEntry = {}
 
----The repository index
+---The global repository index containing all repositories
 ---@class RepositoryIndex
 ---@field repos RepositoryIndexEntry[]
 local RepositoryIndex = {}
@@ -26,11 +28,22 @@ local RepositoryPackage = {}
 ---@field packages RepositoryPackage[]
 local Repository = {}
 
+--[[ Local ]]
+
 ---Information about a installed package
 ---@class InstalledPackage
----@field id string
+---@field full_id string
 ---@field name string
 ---@field description string
 ---@field version string
 ---@field file_name string
 local InstalledPackage = {}
+
+---Entry in the package cache
+---@class PackageCacheEntry
+---@field full_id string
+---@field name string
+---@field version string
+---@field description string
+---@field url string
+local PackageCacheEntry = {}
