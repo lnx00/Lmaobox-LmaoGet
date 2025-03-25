@@ -61,7 +61,8 @@ function api.upgrade(full_id)
         return false, "Package is not installed!"
     end
 
-    local package_info = packages.get(full_id)
+    local repo_id, package_id = common.get_split_id(full_id)
+    local package_info = packages.get(repo_id, package_id)
     if not package_info then
         return false, "Package does not exist anymore!"
     end

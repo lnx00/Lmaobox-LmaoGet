@@ -81,6 +81,7 @@ function installer.remove_package(full_id)
     end]]
 
     installer.installed[full_id] = nil
+    installer.save_info()
 end
 
 -- Download and install a package if it doesn't already exist
