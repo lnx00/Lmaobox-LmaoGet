@@ -41,7 +41,7 @@ local function fetch_repo(repo_entry)
 end
 
 -- Manages available packages
----@class Packages
+---@class PackageManager
 ---@field cache table<string, table<string, PackageCacheEntry>>
 local package_manager = {
     cache = {}

@@ -36,6 +36,20 @@ function cli.find(package_name)
     end
 end
 
+function cli.list()
+    local results = Api.list()
+
+    if #results == 0 then
+        print("No packages installed")
+        return
+    end
+
+    print(string.format("Installed packages (%d):", #results))
+    for _, full_id in ipairs(results) do
+        print(string.format("- %s", full_id))
+    end
+end
+
 function cli.install(package_name)
     local repo_id, package_id = common.get_split_id(package_name)
 
@@ -92,7 +106,7 @@ function cli.on_command(args)
         cli.update()
         return
     elseif action == "list" then
-        print("WIP")
+        cli.list()
         return
     end
 

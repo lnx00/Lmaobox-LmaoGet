@@ -28,6 +28,18 @@ function api.find(package_name)
     return results
 end
 
+-- Returns a list of installed packages
+---@return string[]
+function api.list()
+    local results = {}
+
+    for full_id, _ in pairs(installer.installed) do
+        table.insert(results, full_id)
+    end
+
+    return results
+end
+
 -- Installs a package by repo and package id
 ---@param repo_id string
 ---@param package_id string
