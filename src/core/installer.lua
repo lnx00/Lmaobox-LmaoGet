@@ -3,8 +3,8 @@ local json = require("src.common.json")
 
 local fs = common.lmaolib.utils.fs
 
-local PACKAGE_INFO_PATH = "./LmaoGet/installed-packages.json"
-local PACKAGE_PATH = "./LmaoGet/packages"
+local PACKAGE_INFO_PATH = "./.lmaoget/installed-packages.json"
+local PACKAGE_PATH = "./.lmaoget/packages"
 
 filesystem.CreateDirectory(PACKAGE_PATH)
 

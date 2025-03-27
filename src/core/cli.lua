@@ -51,10 +51,10 @@ function cli.list()
 end
 
 function cli.install(package_name)
-    local repo_id, package_id = common.get_split_id(package_name)
+    --local repo_id, package_id = common.get_split_id(package_name)
 
     print(string.format("Installing package '%s'...", package_name))
-    local success, err = Api.install(repo_id, package_id)
+    local success, err = Api.install(package_name)
 
     if not success then
         print(string.format("Failed to install package '%s': %s", package_name, err))

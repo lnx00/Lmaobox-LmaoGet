@@ -2,7 +2,7 @@ local common = require("src.common.common")
 local packages = require("src.core.package_manager")
 local installer = require("src.core.installer")
 
-local WORKSPACE_PATH = "./LmaoGet"
+local WORKSPACE_PATH = "./.lmaoget"
 filesystem.CreateDirectory(WORKSPACE_PATH)
 
 ---@class LmaoGetApi
@@ -41,11 +41,10 @@ function api.list()
 end
 
 -- Installs a package by repo and package id
----@param repo_id string
----@param package_id string
+---@param full_id string
 ---@return boolean, string?
-function api.install(repo_id, package_id)
-    local package_info = packages.get(repo_id, package_id)
+function api.install(full_id)
+    local package_info = packages.get(full_id)
     if not package_info then
         return false, "Package not found!"
     end
@@ -73,8 +72,7 @@ function api.upgrade(full_id)
         return false, "Package is not installed!"
     end
 
-    local repo_id, package_id = common.get_split_id(full_id)
-    local package_info = packages.get(repo_id, package_id)
+    local package_info = packages.get(full_id)
     if not package_info then
         return false, "Package does not exist anymore!"
     end

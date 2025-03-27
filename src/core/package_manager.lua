@@ -5,6 +5,7 @@ local json = require("src.common.json")
 
 local repo_index_url = "https://gist.githubusercontent.com/lnx00/634792a910870ca563da47f6285aaf00/raw/lmaoget-index.json?v=1"
 
+-- Fetches a repo and returns its table of packages
 ---@param repo_entry RepositoryIndexEntry
 ---@return table<string, PackageCacheEntry>?
 local function fetch_repo(repo_entry)
@@ -75,6 +76,7 @@ function package_manager.update_cache()
 end
 
 -- Find a package with partial matching name
+---@param needle string
 ---@return table<string, RepositoryPackage>
 function package_manager.find(needle)
     local results = {}
@@ -92,7 +94,9 @@ end
 
 -- Get a package by repo and package id
 ---@return PackageCacheEntry?
-function package_manager.get(repo_id, package_id)
+function package_manager.get(full_id)
+    local repo_id, package_id = common.get_split_id(full_id)
+
     local repo_cache = package_manager.cache[repo_id]
     if not repo_cache then
         return nil
