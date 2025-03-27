@@ -1,9 +1,6 @@
 local common = require("src.common.common")
+local config = require("src.common.config")
 local json = require("src.common.json")
-
---local fs = common.lmaolib.utils.fs
-
-local repo_index_url = "https://gist.githubusercontent.com/lnx00/634792a910870ca563da47f6285aaf00/raw/lmaoget-index.json?v=1"
 
 -- Fetches a repo and returns its table of packages
 ---@param repo_entry RepositoryIndexEntry
@@ -51,7 +48,7 @@ local package_manager = {
 -- Updates the local package cache
 function package_manager.update_cache()
     --local package_index_json = fs.read(repo_index_url)
-    local package_index_json = http.Get(repo_index_url)
+    local package_index_json = http.Get(config.get_repo_index_url())
     if not package_index_json then
         error("Failed to load package index")
         return

@@ -1,12 +1,10 @@
 local common = require("src.common.common")
+local config = require("src.common.config")
 local json = require("src.common.json")
 
 local fs = common.lmaolib.utils.fs
 
-local PACKAGE_INFO_PATH = "./.lmaoget/installed-packages.json"
-local PACKAGE_PATH = "./.lmaoget/packages"
-
-filesystem.CreateDirectory(PACKAGE_PATH)
+filesystem.CreateDirectory(config.get_package_path())
 
 ---@class installer
 ---@field installed table<string, InstalledPackage>
@@ -16,7 +14,7 @@ local installer = {
 
 -- Reloads the installed package info
 function installer.load_info()
-    local installed_data = fs.read(PACKAGE_INFO_PATH)
+    local installed_data = fs.read(config.get_package_info_path())
     if not installed_data then
         return
     end
@@ -38,7 +36,7 @@ function installer.save_info()
         return
     end
 
-    fs.write(PACKAGE_INFO_PATH, installed_data)
+    fs.write(config.get_package_info_path(), installed_data)
 end
 
 -- Find info for an installed package
@@ -100,7 +98,7 @@ function installer.install_package(package_info)
 
     -- Save package data
     local file_name = string.format("%s.lua", package_info.full_id)
-    local file_path = string.format("%s/%s", PACKAGE_PATH, file_name)
+    local file_path = string.format("%s/%s", config.get_package_path(), file_name)
     if not fs.write(file_path, package_data) then
         return false, "Failed to write package data."
     end
@@ -127,7 +125,7 @@ function installer.uninstall_package(full_id)
     end
 
     -- Delete package file
-    local file_path = string.format("%s/%s", PACKAGE_PATH, installed_package.file_name)
+    local file_path = string.format("%s/%s", config.get_package_path(), installed_package.file_name)
     if not fs.delete(file_path) then
         return false, "Failed to remove package file."
     end

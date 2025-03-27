@@ -1,9 +1,9 @@
 local common = require("src.common.common")
+local config = require("src.common.config")
 local packages = require("src.core.package_manager")
 local installer = require("src.core.installer")
 
-local WORKSPACE_PATH = "./.lmaoget"
-filesystem.CreateDirectory(WORKSPACE_PATH)
+filesystem.CreateDirectory(config.get_workspace_path())
 
 ---@class LmaoGetApi
 local api = {}
