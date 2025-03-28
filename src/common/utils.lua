@@ -2,21 +2,17 @@ local lmaolib = require("LmaoLib")
 
 assert(lmaolib, "Failed to load LmaoLib")
 
----@class Common
+---@class Utils
 ---@field lmaolib LmaoLib
-local common = {
+local utils = {
     lmaolib = lmaolib
 }
 
-function common.version()
-    return "0.1.0"
-end
-
-function common.sanitize_name(name)
+function utils.sanitize_name(name)
     return name:gsub("[^%w]", "")
 end
 
-function common.compare_versions(v1, v2)
+function utils.compare_versions(v1, v2)
     local v1_parts = {}
     for part in v1:gmatch("%d+") do
         table.insert(v1_parts, tonumber(part))
@@ -41,16 +37,16 @@ function common.compare_versions(v1, v2)
     return 0
 end
 
-function common.get_full_id(repo_id, package_id)
-    repo_id = common.sanitize_name(repo_id)
-    package_id = common.sanitize_name(package_id)
+function utils.get_full_id(repo_id, package_id)
+    repo_id = utils.sanitize_name(repo_id)
+    package_id = utils.sanitize_name(package_id)
 
     return string.format("%s.%s", repo_id, package_id)
 end
 
-function common.get_split_id(full_id)
+function utils.get_split_id(full_id)
     local repo_id, package_id = full_id:match("([^%.]+)%.(.+)")
     return repo_id, package_id
 end
 
-return common
+return utils

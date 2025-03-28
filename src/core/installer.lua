@@ -1,9 +1,9 @@
-local common = require("src.common.common")
+local utils = require("src.common.utils")
 local config = require("src.common.config")
 local logger = require("src.common.logger")
 local json = require("src.common.json")
 
-local fs = common.lmaolib.utils.fs
+local fs = utils.lmaolib.utils.fs
 
 filesystem.CreateDirectory(config.get_package_path())
 

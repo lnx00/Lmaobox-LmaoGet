@@ -1,4 +1,4 @@
-local common = require("src.common.common")
+local utils = require("src.common.utils")
 local config = require("src.common.config")
 local packages = require("src.core.package_manager")
 local installer = require("src.core.installer")
@@ -7,6 +7,10 @@ filesystem.CreateDirectory(config.get_workspace_path())
 
 ---@class LmaoGetApi
 local api = {}
+
+function api.get_version()
+    return config.get_version()
+end
 
 -- Updates the package cache
 function api.update()
@@ -78,7 +82,7 @@ function api.upgrade(full_id)
     end
 
     -- Is the package already up to date?
-    if common.compare_versions(installed_package.version, package_info.version) >= 0 then
+    if utils.compare_versions(installed_package.version, package_info.version) >= 0 then
         return false, "package is already up to date"
     end
 

@@ -1,4 +1,4 @@
-local common = require("src.common.common")
+local utils = require("src.common.utils")
 local config = require("src.common.config")
 local logger = require("src.common.logger")
 local json = require("src.common.json")
@@ -24,11 +24,11 @@ local function fetch_repo(repo_entry)
     ---@type table<string, PackageCacheEntry>
     local repo_cache = {}
     for _, package in ipairs(repo_json.packages) do
-        local package_id = common.sanitize_name(package.id)
+        local package_id = utils.sanitize_name(package.id)
 
         logger.debug(string.format("- Found package '%s'", package_id))
         repo_cache[package_id] = {
-            full_id = common.get_full_id(repo_entry.id, package_id),
+            full_id = utils.get_full_id(repo_entry.id, package_id),
             name = package.name,
             version = package.version,
             description = package.description,
@@ -66,7 +66,7 @@ function package_manager.update_cache()
     for _, repo_entry in ipairs(package_index.repos) do
         logger.debug(string.format("Updating repo '%s'...", repo_entry.id))
 
-        local repo_id = common.sanitize_name(repo_entry.id)
+        local repo_id = utils.sanitize_name(repo_entry.id)
         local repo_cache = fetch_repo(repo_entry)
 
         package_manager.cache[repo_id] = repo_cache
@@ -80,7 +80,7 @@ function package_manager.find(needle)
     local results = {}
     for repo_id, repo_cache in pairs(package_manager.cache) do
         for package_id, package in pairs(repo_cache) do
-            local full_id = common.get_full_id(repo_id, package_id)
+            local full_id = utils.get_full_id(repo_id, package_id)
             if full_id:lower():find(needle:lower()) then
                 results[full_id] = package
             end
@@ -93,7 +93,7 @@ end
 -- Get a package by repo and package id
 ---@return PackageCacheEntry?
 function package_manager.get(full_id)
-    local repo_id, package_id = common.get_split_id(full_id)
+    local repo_id, package_id = utils.get_split_id(full_id)
 
     local repo_cache = package_manager.cache[repo_id]
     if not repo_cache then

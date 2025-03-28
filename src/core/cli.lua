@@ -1,11 +1,10 @@
-local common = require("src.common.common")
 local Api = require("src.core.api")
 
 ---@class LmaoGetCLI
 local cli = {}
 
 function cli.show_help()
-    print(string.format("Lmaobox Package Manager v%s\n", common.version()))
+    print(string.format("Lmaobox Package Manager v%s\n", Api.get_version()))
     print("Usage: lmaoget <command> [options]\n")
     print("Available commands:")
     print("  list \t\t\t List installed packages")
