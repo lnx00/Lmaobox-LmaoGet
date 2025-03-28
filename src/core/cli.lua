@@ -57,11 +57,11 @@ function cli.install(package_name)
     local success, err = Api.install(package_name)
 
     if not success then
-        print(string.format("Failed to install package '%s': %s", package_name, err))
+        print(string.format("Failed to install: %s", err))
         return
     end
 
-    print(string.format("Successfully installed package '%s'", package_name))
+    print("Successfully installed")
 end
 
 function cli.uninstall(package_name)
@@ -71,11 +71,11 @@ function cli.uninstall(package_name)
     local success, err = Api.uninstall(package_name)
 
     if not success then
-        print(string.format("Failed to uninstall package '%s': %s", package_name, err))
+        print(string.format("Failed to uninstall: %s", err))
         return
     end
 
-    print(string.format("Successfully uninstalled package '%s'", package_name))
+    print("Successfully uninstalled")
 end
 
 function cli.upgrade(package_name)
@@ -85,11 +85,11 @@ function cli.upgrade(package_name)
     local success, err = Api.upgrade(package_name)
 
     if not success then
-        print(string.format("Failed to upgrade package '%s': %s", package_name, err))
+        print(string.format("Failed to upgrade: %s", err))
         return
     end
 
-    print(string.format("Successfully upgraded package '%s'", package_name))
+    print("Successfully upgraded")
 end
 
 function cli.on_command(args)

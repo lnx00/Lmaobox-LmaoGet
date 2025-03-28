@@ -87,20 +87,20 @@ end
 ---@return boolean, string?
 function installer.install_package(package_info)
     if installer.is_installed(package_info.full_id) then
-        return false, "Package is already installed!"
+        return false, "package already installed"
     end
 
     -- Download package data
     local package_data = http.Get(package_info.url)
     if not package_data then
-        return false, "Failed to download package data."
+        return false, "failed to download package data"
     end
 
     -- Save package data
     local file_name = string.format("%s.lua", package_info.full_id)
     local file_path = string.format("%s/%s", config.get_package_path(), file_name)
     if not fs.write(file_path, package_data) then
-        return false, "Failed to write package data."
+        return false, "failed to save package data"
     end
 
     -- Add to installed packages
@@ -121,13 +121,13 @@ end
 function installer.uninstall_package(full_id)
     local installed_package = installer.find(full_id)
     if not installed_package then
-        return false, "Package is not installed."
+        return false, "no such package installed"
     end
 
     -- Delete package file
     local file_path = string.format("%s/%s", config.get_package_path(), installed_package.file_name)
     if not fs.delete(file_path) then
-        return false, "Failed to remove package file."
+        return false, "failed to delete package file"
     end
 
     -- Remove from installed packages

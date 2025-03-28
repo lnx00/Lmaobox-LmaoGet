@@ -46,7 +46,7 @@ end
 function api.install(full_id)
     local package_info = packages.get(full_id)
     if not package_info then
-        return false, "Package not found!"
+        return false, "package not found"
     end
 
     return installer.install_package(package_info)
@@ -57,7 +57,7 @@ end
 ---@return boolean, string?
 function api.uninstall(full_id)
     if not installer.is_installed(full_id) then
-        return false, "Package is not installed!"
+        return false, "package is not installed"
     end
 
     return installer.uninstall_package(full_id)
@@ -69,17 +69,17 @@ end
 function api.upgrade(full_id)
     local installed_package = installer.find(full_id)
     if not installed_package then
-        return false, "Package is not installed!"
+        return false, "no such package installed"
     end
 
     local package_info = packages.get(full_id)
     if not package_info then
-        return false, "Package does not exist anymore!"
+        return false, "package does not exist anymore"
     end
 
     -- Is the package already up to date?
     if common.compare_versions(installed_package.version, package_info.version) >= 0 then
-        return false, "Package is already up to date!"
+        return false, "package is already up to date"
     end
 
     -- Uninstall old package
