@@ -44,13 +44,6 @@ end
 ---@param full_id string
 ---@return InstalledPackage?
 function installer.find(full_id)
-    --[[local full_id = common.get_full_id(repo_id, package_id)
-    for _, installed_package in ipairs(installer.installed) do
-        if installed_package.full_id == full_id then
-            return installed_package
-        end
-    end]]
-
     return installer.installed[full_id]
 end
 
@@ -63,7 +56,6 @@ end
 -- Adds a new package to the installed list
 ---@param package InstalledPackage
 function installer.add_package(package)
-    --table.insert(installer.installed, installed_package)
     installer.installed[package.full_id] = package
     installer.save_info()
 end
@@ -71,14 +63,6 @@ end
 -- Removes a package from the installed list
 ---@param full_id string
 function installer.remove_package(full_id)
-    --[[for i, installed_package in ipairs(installer.installed) do
-        if installed_package.id == full_id then
-            table.remove(installer.installed, i)
-            installer.save_info()
-            return
-        end
-    end]]
-
     installer.installed[full_id] = nil
     installer.save_info()
 end

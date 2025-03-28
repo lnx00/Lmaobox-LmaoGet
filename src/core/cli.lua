@@ -50,8 +50,6 @@ function cli.list()
 end
 
 function cli.install(package_name)
-    --local repo_id, package_id = common.get_split_id(package_name)
-
     print(string.format("Installing package '%s'...", package_name))
     local success, err = Api.install(package_name)
 
@@ -64,8 +62,6 @@ function cli.install(package_name)
 end
 
 function cli.uninstall(package_name)
-    --local repo_id, package_id = common.get_split_id(package_name)
-
     print(string.format("Uninstalling package '%s'...", package_name))
     local success, err = Api.uninstall(package_name)
 
@@ -78,8 +74,6 @@ function cli.uninstall(package_name)
 end
 
 function cli.upgrade(package_name)
-    --local repo_id, package_id = common.get_split_id(package_name)
-
     print(string.format("Upgrading package '%s'...", package_name))
     local success, err = Api.upgrade(package_name)
 

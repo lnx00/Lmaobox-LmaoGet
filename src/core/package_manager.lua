@@ -7,7 +7,6 @@ local json = require("src.common.json")
 ---@param repo_entry RepositoryIndexEntry
 ---@return table<string, PackageCacheEntry>?
 local function fetch_repo(repo_entry)
-    --local repo_data = fs.read(repo_entry.url)
     local repo_data = http.Get(repo_entry.url)
     if not repo_data then
         logger.warn(string.format("Failed to load repo '%s'", repo_entry.id))
@@ -48,7 +47,6 @@ local package_manager = {
 
 -- Updates the local package cache
 function package_manager.update_cache()
-    --local package_index_json = fs.read(repo_index_url)
     local package_index_json = http.Get(config.get_repo_index_url())
     if not package_index_json then
         logger.error("Failed to load package index")
