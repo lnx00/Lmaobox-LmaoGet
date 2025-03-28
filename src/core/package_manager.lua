@@ -1,5 +1,6 @@
 local common = require("src.common.common")
 local config = require("src.common.config")
+local logger = require("src.common.logger")
 local json = require("src.common.json")
 
 -- Fetches a repo and returns its table of packages
@@ -9,14 +10,14 @@ local function fetch_repo(repo_entry)
     --local repo_data = fs.read(repo_entry.url)
     local repo_data = http.Get(repo_entry.url)
     if not repo_data then
-        warn(string.format("Failed to load repo %s", repo_entry.id))
+        logger.warn(string.format("Failed to load repo '%s'", repo_entry.id))
         return nil
     end
 
     ---@type Repository?
     local repo_json = json.decode(repo_data)
     if not repo_json then
-        warn(string.format("Failed to decode repo %s", repo_entry.id))
+        logger.warn(string.format("Failed to decode repo '%s'", repo_entry.id))
         return nil
     end
 
@@ -25,7 +26,7 @@ local function fetch_repo(repo_entry)
     for _, package in ipairs(repo_json.packages) do
         local package_id = common.sanitize_name(package.id)
 
-        print(string.format("- Found package '%s'", package_id))
+        logger.debug(string.format("- Found package '%s'", package_id))
         repo_cache[package_id] = {
             full_id = common.get_full_id(repo_entry.id, package_id),
             name = package.name,
@@ -50,20 +51,20 @@ function package_manager.update_cache()
     --local package_index_json = fs.read(repo_index_url)
     local package_index_json = http.Get(config.get_repo_index_url())
     if not package_index_json then
-        error("Failed to load package index")
+        logger.error("Failed to load package index")
         return
     end
 
     ---@type RepositoryIndex?
     local package_index = json.decode(package_index_json)
     if not package_index then
-        error("Failed to decode package index")
+        logger.error("Failed to decode package index")
         return
     end
 
     package_manager.cache = {}
     for _, repo_entry in ipairs(package_index.repos) do
-        print(string.format("Updating repo '%s'...", repo_entry.id))
+        logger.debug(string.format("Updating repo '%s'...", repo_entry.id))
 
         local repo_id = common.sanitize_name(repo_entry.id)
         local repo_cache = fetch_repo(repo_entry)

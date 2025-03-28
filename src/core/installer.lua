@@ -1,5 +1,6 @@
 local common = require("src.common.common")
 local config = require("src.common.config")
+local logger = require("src.common.logger")
 local json = require("src.common.json")
 
 local fs = common.lmaolib.utils.fs
@@ -32,7 +33,7 @@ end
 function installer.save_info()
     local installed_data = json.encode(installer.installed)
     if not installed_data then
-        warn("Failed to encode installed package info.")
+        logger.warn("Failed to encode installed package info")
         return
     end
 
