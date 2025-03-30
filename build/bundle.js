@@ -11,7 +11,6 @@ const config = {
 const bundledLua = bundle(config.inputFile, {
     metadata: false,
     paths: ["../?.lua"],
-    ignoredModuleNames: ["LmaoLib"],
 
     expressionHandler: (module, expression) => {
         const start = expression.loc.start;

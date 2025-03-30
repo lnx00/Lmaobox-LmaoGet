@@ -3,8 +3,6 @@ local config = require("src.common.config")
 local logger = require("src.common.logger")
 local json = require("src.common.json")
 
-local fs = utils.lmaolib.utils.fs
-
 ---@class installer
 ---@field installed table<string, InstalledPackage>
 local installer = {
@@ -13,7 +11,7 @@ local installer = {
 
 -- Reloads the installed package info
 function installer.load_info()
-    local installed_data = fs.read(config.get_package_info_path())
+    local installed_data = utils.read_file(config.get_package_info_path())
     if not installed_data then
         return
     end
@@ -35,7 +33,7 @@ function installer.save_info()
         return
     end
 
-    fs.write(config.get_package_info_path(), installed_data)
+    utils.write_file(config.get_package_info_path(), installed_data)
 end
 
 -- Find info for an installed package
@@ -85,7 +83,7 @@ function installer.install_package(package_info)
     -- Save package data
     local file_name = string.format("%s.lua", package_info.full_id)
     local file_path = string.format("%s/%s", config.get_package_path(), file_name)
-    if not fs.write(file_path, package_data) then
+    if not utils.write_file(file_path, package_data) then
         return false, "failed to save package data"
     end
 
@@ -112,7 +110,7 @@ function installer.uninstall_package(full_id)
 
     -- Delete package file
     local file_path = string.format("%s/%s", config.get_package_path(), installed_package.file_name)
-    if not fs.delete(file_path) then
+    if not os.remove(file_path) then
         return false, "failed to delete package file"
     end
 

@@ -1,12 +1,5 @@
-local lmaolib = require("LmaoLib")
-
-assert(lmaolib, "Failed to load LmaoLib")
-
----@class Utils
----@field lmaolib LmaoLib
-local utils = {
-    lmaolib = lmaolib
-}
+---@class utils
+local utils = {}
 
 function utils.sanitize_name(name)
     return name:gsub("[^%w]", "")
@@ -47,6 +40,27 @@ end
 function utils.get_split_id(full_id)
     local repo_id, package_id = full_id:match("([^%.]+)%.(.+)")
     return repo_id, package_id
+end
+
+---@param path string
+---@return any?
+function utils.read_file(path)
+    local file = io.open(path, "rb") -- r read mode and b binary mode
+    if not file then return nil end
+    local content = file:read "*a" -- *a or *all reads the whole file
+    file:close()
+    return content
+end
+
+---@param path string
+---@param content any
+---@return boolean
+function utils.write_file(path, content)
+    local file = io.open(path, "wb") -- w write mode and b binary mode
+    if not file then return false end
+    file:write(content)
+    file:close()
+    return true
 end
 
 return utils
