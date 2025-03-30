@@ -1,4 +1,4 @@
-local Api = require("src.core.api")
+local api = require("src.core.api")
 
 ---@class LmaoGetCLI
 local cli = {}
@@ -17,12 +17,12 @@ end
 
 function cli.update()
     print("Updating package cache...")
-    Api.update()
+    api.update()
     print("Package cache updated")
 end
 
 function cli.find(package_name)
-    local results = Api.find(package_name)
+    local results = api.find(package_name)
 
     if #results == 0 then
         print(string.format("No packages found for '%s'", package_name))
@@ -36,7 +36,7 @@ function cli.find(package_name)
 end
 
 function cli.list()
-    local results = Api.list()
+    local results = api.list()
 
     if #results == 0 then
         print("No packages installed")
@@ -51,7 +51,7 @@ end
 
 function cli.install(package_name)
     print(string.format("Installing package '%s'...", package_name))
-    local success, err = Api.install(package_name)
+    local success, err = api.install(package_name)
 
     if not success then
         print(string.format("Failed to install: %s", err))
@@ -63,7 +63,7 @@ end
 
 function cli.uninstall(package_name)
     print(string.format("Uninstalling package '%s'...", package_name))
-    local success, err = Api.uninstall(package_name)
+    local success, err = api.uninstall(package_name)
 
     if not success then
         print(string.format("Failed to uninstall: %s", err))
@@ -75,7 +75,7 @@ end
 
 function cli.upgrade(package_name)
     print(string.format("Upgrading package '%s'...", package_name))
-    local success, err = Api.upgrade(package_name)
+    local success, err = api.upgrade(package_name)
 
     if not success then
         print(string.format("Failed to upgrade: %s", err))

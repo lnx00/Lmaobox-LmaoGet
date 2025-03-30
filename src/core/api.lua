@@ -3,8 +3,6 @@ local config = require("src.common.config")
 local packages = require("src.core.package_manager")
 local installer = require("src.core.installer")
 
-filesystem.CreateDirectory(config.get_workspace_path())
-
 ---@class LmaoGetApi
 local api = {}
 
@@ -14,6 +12,8 @@ end
 
 -- Updates the package cache
 function api.update()
+    filesystem.CreateDirectory(config.get_workspace_path())
+
     packages.update_cache()
     installer.load_info()
 end

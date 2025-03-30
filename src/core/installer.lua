@@ -5,8 +5,6 @@ local json = require("src.common.json")
 
 local fs = utils.lmaolib.utils.fs
 
-filesystem.CreateDirectory(config.get_package_path())
-
 ---@class installer
 ---@field installed table<string, InstalledPackage>
 local installer = {
@@ -80,6 +78,9 @@ function installer.install_package(package_info)
     if not package_data then
         return false, "failed to download package data"
     end
+
+    -- Make sure the package directory exists
+    filesystem.CreateDirectory(config.get_package_path())
 
     -- Save package data
     local file_name = string.format("%s.lua", package_info.full_id)
