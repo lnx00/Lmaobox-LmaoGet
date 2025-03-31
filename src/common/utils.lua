@@ -63,4 +63,29 @@ function utils.write_file(path, content)
     return true
 end
 
+---Returns whether the given file/directory exists
+---@param path string
+---@return boolean
+function utils.file_exists(path)
+    local file = io.open(path, "rb")
+    if file then file:close() end
+    return file ~= nil
+end
+
+---Returns a read-only variant of the table
+---@param t table The table to be made read-only
+---@return table read-only version of the input table
+function utils.read_only(t)
+    local proxy = {}
+    local mt = {
+        __index = t,
+        __newindex = function(_, _, _)
+            error("attempt to update a read-only table", 2)
+        end,
+        __metatable = false
+    }
+    setmetatable(proxy, mt)
+    return proxy
+end
+
 return utils

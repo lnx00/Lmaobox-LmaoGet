@@ -4,7 +4,7 @@ local api = require("src.core.api")
 local cli = {}
 
 function cli.show_help()
-    print(string.format("Lmaobox Package Manager v%s\n", Api.get_version()))
+    print(string.format("Lmaobox Package Manager v%s\n", api.get_version()))
     print("Usage: lmaoget <command> [options]\n")
     print("Available commands:")
     print("  list \t\t\t List installed packages")
@@ -85,6 +85,18 @@ function cli.upgrade(package_name)
     print("Successfully upgraded")
 end
 
+function cli.load(package_name)
+    print(string.format("Loading package '%s'...", package_name))
+    local success, err = api.load_script(package_name)
+
+    if not success then
+        print(string.format("Failed to load: %s", err))
+        return
+    end
+
+    print("Successfully loaded")
+end
+
 function cli.on_command(args)
     local n_args = #args
 
@@ -121,6 +133,9 @@ function cli.on_command(args)
         return
     elseif action == "upgrade" then
         cli.upgrade(package_name)
+        return
+    elseif action == "load" then
+        cli.load(package_name)
         return
     else
         print(string.format("Unknown command '%s'", action))

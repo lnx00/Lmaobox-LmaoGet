@@ -61,7 +61,7 @@ end
 ---@return boolean, string?
 function api.uninstall(full_id)
     if not installer.is_installed(full_id) then
-        return false, "package is not installed"
+        return false, "no such package installed"
     end
 
     return installer.uninstall_package(full_id)
@@ -93,6 +93,30 @@ function api.upgrade(full_id)
     end
 
     return installer.install_package(package_info)
+end
+
+-- Loads an installed script
+---@param full_id string
+---@return boolean, string?
+function api.load_script(full_id)
+    local installed_package = installer.find(full_id)
+    if not installed_package then
+        return false, "no such package installed"
+    end
+
+    local file_path = string.format("%s/%s", config.get_package_path(), installed_package.file_name)
+    if not utils.file_exists(file_path) then
+        return false, "package file does not exist"
+    end
+
+    local package_data = utils.read_file(file_path)
+    if not package_data then
+        return false, "failed to read package file"
+    end
+
+    dofile(file_path)
+
+    return true
 end
 
 return api
