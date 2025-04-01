@@ -1,4 +1,5 @@
 {
+    "$schema": "https://gist.githubusercontent.com/lnx00/634792a910870ca563da47f6285aaf00/raw/lmaoget-index.schema.json",
     "repos": [
         {
             "id": "Example",
