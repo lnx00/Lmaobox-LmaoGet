@@ -41,7 +41,7 @@
                         "description": "List of package IDs that this package depends on",
                         "items": {
                             "type": "string",
-                            "pattern": "^[a-zA-Z0-9-_]+\\.[a-zA-Z0-9-_]+$"
+                            "pattern": "^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$"
                         },
                         "uniqueItems": true
                     }
