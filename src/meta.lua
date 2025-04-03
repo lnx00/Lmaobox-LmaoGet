@@ -20,6 +20,7 @@ local RepositoryIndex = {}
 ---@field version string
 ---@field description string
 ---@field url string
+---@field dependencies string[]?
 local RepositoryPackage = {}
 
 ---A repository
@@ -46,4 +47,5 @@ local InstalledPackage = {}
 ---@field version string
 ---@field description string
 ---@field url string
+---@field dependencies string[]?
 local PackageCacheEntry = {}

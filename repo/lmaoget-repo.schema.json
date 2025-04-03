@@ -35,6 +35,15 @@
                         "type": "string",
                         "description": "URL to download the package",
                         "format": "uri"
+                    },
+                    "dependencies": {
+                        "type": "array",
+                        "description": "List of package IDs that this package depends on",
+                        "items": {
+                            "type": "string",
+                            "pattern": "^[a-zA-Z0-9-_]+\\.[a-zA-Z0-9-_]+$"
+                        },
+                        "uniqueItems": true
                     }
                 },
                 "required": [

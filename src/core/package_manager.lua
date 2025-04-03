@@ -31,7 +31,8 @@ local function fetch_repo(repo_entry)
             name = package.name,
             version = package.version,
             description = package.description,
-            url = package.url
+            url = package.url,
+            dependencies = package.dependencies,
         }
     end
 

@@ -12,9 +12,10 @@
         {
             "id": "MyScript",
             "name": "My Scripts",
-            "description": "This is my script.",
+            "description": "This is my script that depends on DT-Bar.",
             "version": "2.0.4",
-            "url": "https://raw.githubusercontent.com/lnx00/Lmaobox-Lua/refs/heads/main/src/DT-Bar.lua"
+            "url": "https://raw.githubusercontent.com/lnx00/Lmaobox-Lua/refs/heads/main/src/DT-Bar.lua",
+            "dependencies": ["Example.TestPackage"]
         }
     ]
 }

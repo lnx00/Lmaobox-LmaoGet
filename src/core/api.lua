@@ -2,6 +2,7 @@ local utils = require("src.common.utils")
 local config = require("src.common.config")
 local packages = require("src.core.package_manager")
 local installer = require("src.core.installer")
+local logger = require("src.common.logger")
 
 ---@class LmaoGetApi
 local api = {}
@@ -53,7 +54,25 @@ function api.install(full_id)
         return false, "package not found"
     end
 
-    return installer.install_package(package_info)
+    -- Install package
+    local result, err = installer.install_package(package_info)
+    if not result then
+        return false, err
+    end
+
+    -- Install dependencies if any
+    if package_info.dependencies then
+        for _, dependency in ipairs(package_info.dependencies) do
+            logger.info(string.format("Installing dependency '%s'", dependency))
+
+            local result, err = api.install(dependency)
+            if not result then
+                logger.warn(string.format("Failed to install dependency '%s': %s", dependency, err))
+            end
+        end
+    end
+
+    return true
 end
 
 -- Uninstalls a package by repo and package id
