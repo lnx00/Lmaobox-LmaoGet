@@ -1,0 +1,29 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build and Install LmaoGet",
+            "type": "shell",
+            "command": "node bundle.js && move /Y \"${workspaceFolder}/build/out/LmaoGet.lua\" \"%LOCALAPPDATA%/LmaoGet.lua\"",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/build/"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [],
+            "windows": {
+                "command": "node bundle.js; if ($?) { Move-Item -Path \"${workspaceFolder}/build/out/LmaoGet.lua\" -Destination \"$env:LOCALAPPDATA/LmaoGet.lua\" -Force }"
+            }
+        }
+    ]
+}
