@@ -1,7 +1,10 @@
 local api = require("src.core.api")
 
 ---@class LmaoGetCLI
-local cli = {}
+---@field handlers table<string, fun(args: string[])>
+local cli = {
+    handlers = {},
+}
 
 function cli.show_help()
     print(string.format("Lmaobox Package Manager v%s\n", api.get_version()))
@@ -15,27 +18,17 @@ function cli.show_help()
     print("  upgrade <package> \t\t Upgrade an installed package")
 end
 
-function cli.update()
+cli.handlers["help"] = function(_)
+    cli.show_help()
+end
+
+cli.handlers["update"] = function(_)
     print("Updating package cache...")
     api.update()
     print("Package cache updated")
 end
 
-function cli.find(package_name)
-    local results = api.find(package_name)
-
-    if #results == 0 then
-        print(string.format("No packages found for '%s'", package_name))
-        return
-    end
-
-    print(string.format("Found %d packages for '%s':", #results, package_name))
-    for _, full_id in ipairs(results) do
-        print(string.format("- %s", full_id))
-    end
-end
-
-function cli.list()
+cli.handlers["list"] = function(_)
     local results = api.list()
 
     if #results == 0 then
@@ -49,7 +42,33 @@ function cli.list()
     end
 end
 
-function cli.install(package_name)
+cli.handlers["find"] = function(args)
+    if #args < 3 then
+        print("Usage: lmaoget find <package>")
+        return
+    end
+
+    local package_name = args[3]
+    local results = api.find(package_name)
+
+    if #results == 0 then
+        print(string.format("No packages found for '%s'", package_name))
+        return
+    end
+
+    print(string.format("Found %d packages for '%s':", #results, package_name))
+    for _, full_id in ipairs(results) do
+        print(string.format("- %s", full_id))
+    end
+end
+
+cli.handlers["install"] = function(args)
+    if #args < 3 then
+        print("Usage: lmaoget install <package>")
+        return
+    end
+
+    local package_name = args[3]
     print(string.format("Installing package '%s'...", package_name))
     local success, err = api.install(package_name)
 
@@ -61,7 +80,13 @@ function cli.install(package_name)
     print("Successfully installed")
 end
 
-function cli.uninstall(package_name)
+cli.handlers["uninstall"] = function(args)
+    if #args < 3 then
+        print("Usage: lmaoget uninstall <package>")
+        return
+    end
+
+    local package_name = args[3]
     print(string.format("Uninstalling package '%s'...", package_name))
     local success, err = api.uninstall(package_name)
 
@@ -73,7 +98,13 @@ function cli.uninstall(package_name)
     print("Successfully uninstalled")
 end
 
-function cli.upgrade(package_name)
+cli.handlers["upgrade"] = function(args)
+    if #args < 3 then
+        print("Usage: lmaoget upgrade <package>")
+        return
+    end
+
+    local package_name = args[3]
     print(string.format("Upgrading package '%s'...", package_name))
     local success, err = api.upgrade(package_name)
 
@@ -85,7 +116,13 @@ function cli.upgrade(package_name)
     print("Successfully upgraded")
 end
 
-function cli.load(package_name)
+cli.handlers["load"] = function(args)
+    if #args < 3 then
+        print("Usage: lmaoget load <package>")
+        return
+    end
+
+    local package_name = args[3]
     print(string.format("Loading package '%s'...", package_name))
     local success, err = api.load_script(package_name)
 
@@ -97,6 +134,7 @@ function cli.load(package_name)
     print("Successfully loaded")
 end
 
+---@param args string[]
 function cli.on_command(args)
     local n_args = #args
 
@@ -105,40 +143,14 @@ function cli.on_command(args)
         return
     end
 
-    local action = args[2]
-
-    if action == "update" then
-        cli.update()
-        return
-    elseif action == "list" then
-        cli.list()
-        return
-    end
-
-    if n_args < 3 then
-        print("Usage: lmaoget <command> [options]")
-        return
-    end
-
-    local package_name = args[3]
-
-    if action == "find" then
-        cli.find(package_name)
-        return
-    elseif action == "install" then
-        cli.install(package_name)
-        return
-    elseif action == "uninstall" then
-        cli.uninstall(package_name)
-        return
-    elseif action == "upgrade" then
-        cli.upgrade(package_name)
-        return
-    elseif action == "load" then
-        cli.load(package_name)
+    local action = string.lower(args[2])
+    local handler = cli.handlers[action]
+    if handler then
+        handler(args)
         return
     else
-        print(string.format("Unknown command '%s'", action))
+        print(string.format("Invalid operation: %s", action))
+        print("Use 'lmaoget help' for a list of available commands")
         return
     end
 end
@@ -146,7 +158,6 @@ end
 ---@param string_cmd StringCmd
 local function on_string_cmd(string_cmd)
     local cmd = string_cmd:Get()
-
     if cmd:sub(1, 7) ~= "lmaoget" then
         return
     end
