@@ -16,6 +16,7 @@ function cli.show_help()
     print("  install <package> \t\t Install a package by id")
     print("  uninstall <package> \t\t Uninstall an installed package")
     print("  upgrade <package> \t\t Upgrade an installed package")
+    print("  load <package> \t\t Load a package by id")
 end
 
 cli.handlers["help"] = function(_)
@@ -24,7 +25,12 @@ end
 
 cli.handlers["update"] = function(_)
     print("Updating package cache...")
-    api.update()
+    local success, error = api.update()
+    if not success then
+        print(string.format("Failed to update: %s", error))
+        return
+    end
+
     print("Package cache updated")
 end
 

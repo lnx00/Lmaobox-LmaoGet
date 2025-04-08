@@ -47,18 +47,17 @@ local package_manager = {
 }
 
 -- Updates the local package cache
+---@return boolean, string?
 function package_manager.update_cache()
     local package_index_json = http.Get(config.get_repo_index_url())
     if not package_index_json then
-        logger.error("Failed to load package index")
-        return
+        return false, "failed to load package index"
     end
 
     ---@type RepositoryIndex?
     local package_index = json.decode(package_index_json)
     if not package_index then
-        logger.error("Failed to decode package index")
-        return
+        return false, "failed to decode package index"
     end
 
     package_manager.cache = {}
@@ -66,10 +65,10 @@ function package_manager.update_cache()
         logger.debug(string.format("Updating repo '%s'...", repo_entry.id))
 
         local repo_id = utils.sanitize_name(repo_entry.id)
-        local repo_cache = fetch_repo(repo_entry)
-
-        package_manager.cache[repo_id] = repo_cache
+        package_manager.cache[repo_id] = fetch_repo(repo_entry)
     end
+
+    return true
 end
 
 -- Find a package with partial matching name

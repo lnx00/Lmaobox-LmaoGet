@@ -12,11 +12,14 @@ function api.get_version()
 end
 
 -- Updates the package cache
+---@return boolean, string?
 function api.update()
     filesystem.CreateDirectory(config.get_workspace_path())
 
-    packages.update_cache()
     installer.load_info()
+
+    local success, error = packages.update_cache()
+    return success, error
 end
 
 -- Returns package ids that match the given name
