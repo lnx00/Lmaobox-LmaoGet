@@ -1,6 +1,6 @@
 ---@class logger
 local logger = {
-    SEVERITY = 1
+    SEVERITY = 0
 }
 
 function logger.debug(message)

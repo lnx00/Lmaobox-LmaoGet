@@ -25,13 +25,15 @@ end
 
 cli.handlers["update"] = function(_)
     print("Updating package cache...")
-    local success, error = api.update()
-    if not success then
-        print(string.format("Failed to update: %s", error))
-        return
-    end
 
-    print("Package cache updated")
+    api.update(function (success, error)
+        if not success then
+            print(string.format("Failed to update: %s", error))
+            return
+        end
+
+        print("Package cache updated")
+    end)
 end
 
 cli.handlers["list"] = function(_)

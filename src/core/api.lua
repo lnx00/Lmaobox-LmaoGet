@@ -12,14 +12,13 @@ function api.get_version()
 end
 
 -- Updates the package cache
----@return boolean, string?
-function api.update()
+---@param callback fun(success: boolean, error: string?)
+function api.update(callback)
     filesystem.CreateDirectory(config.get_workspace_path())
 
     installer.load_info()
 
-    local success, error = packages.update_cache()
-    return success, error
+    packages.update_cache(callback)
 end
 
 -- Returns package ids that match the given name
