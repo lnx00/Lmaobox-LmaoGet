@@ -88,4 +88,10 @@ function utils.read_only(t)
     return proxy
 end
 
+function utils.count_table(t)
+    local n = 0
+    for _ in pairs(t) do n = n + 1 end
+    return n
+end
+
 return utils

@@ -1,4 +1,5 @@
 local api = require("src.core.api")
+local utils = require("src.common.utils")
 
 ---@class LmaoGetCLI
 ---@field handlers table<string, fun(args: string[])>
@@ -23,7 +24,12 @@ cli.handlers["help"] = function(_)
     cli.show_help()
 end
 
-cli.handlers["update"] = function(_)
+cli.handlers["update"] = function(args)
+    if #args > 2 then
+        print("Too many args for the 'update' command. Did you intend to 'upgrade' instead?")
+        return
+    end
+
     print("Updating package cache...")
 
     api.update(function(success, error)
@@ -44,7 +50,7 @@ cli.handlers["list"] = function(_)
         return
     end
 
-    print(string.format("Installed packages (%d):", #results))
+    print(string.format("Installed packages (%d):", utils.count_table(results)))
     for full_id, package in pairs(results) do
         print(string.format("- %-30s (%s)", full_id, package.version))
     end
@@ -64,7 +70,7 @@ cli.handlers["find"] = function(args)
         return
     end
 
-    print(string.format("Found %d packages for '%s':", #results, package_name))
+    print(string.format("Found %d packages for '%s':", utils.count_table(results), package_name))
     for full_id, package in pairs(results) do
         print(string.format("- %-30s %-50s", full_id, package.name))
     end
