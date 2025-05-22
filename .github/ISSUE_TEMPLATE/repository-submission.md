@@ -7,5 +7,8 @@ assignees: ''
 
 ---
 
-**Repository ID:** MyRepository
+**Repository id:** MyRepository
 **Repository manifest:** https://example.com/my-repository.json
+
+- [ ] I confirm that all URLs in my manifest are available and reachable
+- [ ] I confirm that I won't accidentally move or delete the manifest file
