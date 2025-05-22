@@ -1,5 +1,8 @@
 # LmaoGet for Lmaobox
 
+> [!WARNING]  
+> This project is still WIP and not ready to be used yet!
+
 LmaoGet is a Lua package manager for Lmaobox that allows you to easily download, update and manager Lua scripts from inside the game.
 Lua developers are able to create manifest files for their repositories and contribute them here.
 

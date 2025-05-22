@@ -1,5 +1,5 @@
 {
-    "$schema": "https://gist.githubusercontent.com/lnx00/634792a910870ca563da47f6285aaf00/raw/lmaoget-repo.schema.json",
+    "$schema": "https://raw.githubusercontent.com/lnx00/Lmaobox-LmaoGet/refs/heads/main/schema/lmaoget-repo.schema.json",
     "name": "Example Repository",
     "packages": [
         {
