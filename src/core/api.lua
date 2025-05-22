@@ -21,14 +21,16 @@ function api.update(callback)
     packages.update_cache(callback)
 end
 
--- Returns packages and their full ids that partially match the given name
+-- Returns packages and their full ids that partially match the given name. \
+-- Please act like the return value is read-only and don't modify it.
 ---@param needle string
 ---@return table<string, RepositoryPackage>
 function api.find(needle)
     return packages.find(needle)
 end
 
--- Returns a list of installed packages
+-- Returns a list of installed packages \
+-- Please act like the return value is read-only and don't modify it.
 ---@return table<string, InstalledPackage> (full_id, package)
 function api.list()
     return installer.installed
