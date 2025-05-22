@@ -4,7 +4,8 @@ local WORKSPACE_PATH = "./.lmaoget/"
 local PACKAGE_PATH = WORKSPACE_PATH .. "packages/"
 local PACKAGE_INFO_PATH = WORKSPACE_PATH .. "installed-packages.json"
 
-local REPO_INDEX_URL = "https://gist.githubusercontent.com/lnx00/634792a910870ca563da47f6285aaf00/raw/lmaoget-index.json" .. "?v=1"
+--local REPO_INDEX_URL = "https://gist.githubusercontent.com/lnx00/634792a910870ca563da47f6285aaf00/raw/lmaoget-index.json" .. "?v=1"
+local REPO_INDEX_URL = "https://raw.githubusercontent.com/lnx00/Lmaobox-LmaoGet/refs/heads/main/repo/lmaoget-index.json"
 
 ---@class config
 local config = {}

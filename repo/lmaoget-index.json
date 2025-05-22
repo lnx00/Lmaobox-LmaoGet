@@ -2,12 +2,8 @@
     "$schema": "https://raw.githubusercontent.com/lnx00/Lmaobox-LmaoGet/refs/heads/main/schema/lmaoget-index.schema.json",
     "repos": [
         {
-            "id": "Example",
-            "url": "./LmaoGet/example-repo.json"
-        },
-        {
-            "id": "Offline",
-            "url": "./404/404.json"
+            "id": "lnx00",
+            "url": "https://raw.githubusercontent.com/lnx00/Lmaobox-Lua/refs/heads/main/lmaoget-repository.json"
         }
     ]
 }
