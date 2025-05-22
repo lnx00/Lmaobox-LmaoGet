@@ -73,8 +73,9 @@ function utils.file_exists(path)
 end
 
 ---Returns a read-only variant of the table
----@param t table The table to be made read-only
----@return table read-only version of the input table
+---@generic T : table
+---@param t T The table to be made read-only
+---@return T read-only version of the input table
 function utils.read_only(t)
     local proxy = {}
     local mt = {
@@ -82,7 +83,6 @@ function utils.read_only(t)
         __newindex = function(_, _, _)
             error("attempt to update a read-only table", 2)
         end,
-        __metatable = false
     }
     setmetatable(proxy, mt)
     return proxy

@@ -21,30 +21,17 @@ function api.update(callback)
     packages.update_cache(callback)
 end
 
--- Returns package ids that match the given name
----@param package_name string
----@return string[]
-function api.find(package_name)
-    local package_list = packages.find(package_name)
-    local results = {}
-
-    for full_id, _ in pairs(package_list) do
-        table.insert(results, full_id)
-    end
-
-    return results
+-- Returns packages and their full ids that partially match the given name
+---@param needle string
+---@return table<string, RepositoryPackage>
+function api.find(needle)
+    return packages.find(needle)
 end
 
 -- Returns a list of installed packages
----@return string[]
+---@return table<string, InstalledPackage> (full_id, package)
 function api.list()
-    local results = {}
-
-    for full_id, _ in pairs(installer.installed) do
-        table.insert(results, full_id)
-    end
-
-    return results
+    return installer.installed
 end
 
 -- Installs a package by repo and package id

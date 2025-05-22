@@ -95,7 +95,7 @@ end
 
 -- Find a package with partial matching name
 ---@param needle string
----@return table<string, RepositoryPackage>
+---@return table<string, RepositoryPackage> (full_id, package)
 function package_manager.find(needle)
     local results = {}
     for repo_id, repo_cache in pairs(package_manager.cache) do

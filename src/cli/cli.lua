@@ -26,7 +26,7 @@ end
 cli.handlers["update"] = function(_)
     print("Updating package cache...")
 
-    api.update(function (success, error)
+    api.update(function(success, error)
         if not success then
             print(string.format("Failed to update: %s", error))
             return
@@ -39,14 +39,14 @@ end
 cli.handlers["list"] = function(_)
     local results = api.list()
 
-    if #results == 0 then
+    if next(results) == nil then
         print("No packages installed")
         return
     end
 
     print(string.format("Installed packages (%d):", #results))
-    for _, full_id in ipairs(results) do
-        print(string.format("- %s", full_id))
+    for full_id, package in pairs(results) do
+        print(string.format("- %-30s (%s)", full_id, package.version))
     end
 end
 
@@ -59,14 +59,14 @@ cli.handlers["find"] = function(args)
     local package_name = args[3]
     local results = api.find(package_name)
 
-    if #results == 0 then
+    if next(results) == nil then
         print(string.format("No packages found for '%s'", package_name))
         return
     end
 
     print(string.format("Found %d packages for '%s':", #results, package_name))
-    for _, full_id in ipairs(results) do
-        print(string.format("- %s", full_id))
+    for full_id, package in pairs(results) do
+        print(string.format("- %-30s %-50s", full_id, package.name))
     end
 end
 
